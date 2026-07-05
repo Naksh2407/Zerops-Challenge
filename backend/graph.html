@@ -1,0 +1,86 @@
+
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Codebase Knowledge Graph</title>
+                <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+                <style type="text/css">
+                    #network {
+                        width: 100%;
+                        height: 100vh;
+                        background-color: #0b0f19;
+                    }
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        background-color: #0b0f19;
+                        overflow: hidden;
+                    }
+                </style>
+            </head>
+            <body>
+                <div id="network"></div>
+                <script type="text/javascript">
+                    // Create nodes
+                    var nodes = new vis.DataSet([
+                        { id: 1, label: 'main.py', group: 'code', title: 'FastAPI Backend Entry point', shape: 'dot', color: '#6366f1' },
+                        { id: 2, label: 'App.jsx', group: 'code', title: 'React Frontend Dashboard', shape: 'dot', color: '#6366f1' },
+                        { id: 3, label: 'auth.ts', group: 'code', title: 'Legacy Authentication module', shape: 'dot', color: '#f43f5e' },
+                        { id: 4, label: 'PR #842', group: 'pr', title: 'Hotfix auth timeout: Bump 2s -> 5s', shape: 'diamond', color: '#a855f7' },
+                        { id: 5, label: 'AUTH-99', group: 'jira', title: 'Jira Ticket: Users dropping connections', shape: 'square', color: '#eab308' },
+                        { id: 6, label: 'Slack message', group: 'slack', title: '@sarah_dev: Bump timeout due to OAuth throttling', shape: 'triangle', color: '#10b981' },
+                        { id: 7, label: 'db_pool.py', group: 'code', title: 'Database Pool Config', shape: 'dot', color: '#f43f5e' },
+                        { id: 8, label: 'PR #901', group: 'pr', title: 'Hotfix: Disable connection pool overflow', shape: 'diamond', color: '#a855f7' },
+                        { id: 9, label: 'INFRA-304', group: 'jira', title: 'Jira Ticket: Postgres replica limit reached', shape: 'square', color: '#eab308' },
+                        { id: 10, label: 'Slack ops msg', group: 'slack', title: '@pete_ops: Bump max_overflow to 0', shape: 'triangle', color: '#10b981' },
+                        { id: 11, label: 'cache_manager.py', group: 'code', title: 'Cache eviction configuration', shape: 'dot', color: '#f43f5e' },
+                        { id: 12, label: 'PR #1012', group: 'pr', title: 'Hotfix: Switch Redis eviction policy to allkeys-lru', shape: 'diamond', color: '#a855f7' },
+                        { id: 13, label: 'INFRA-412', group: 'jira', title: 'Jira Ticket: Redis cluster OOM error', shape: 'square', color: '#eab308' },
+                        { id: 14, label: 'Slack ops msg', group: 'slack', title: '@alex_infra: Set policy to allkeys-lru', shape: 'triangle', color: '#10b981' }
+                    ]);
+
+                    // Create edges
+                    var edges = new vis.DataSet([
+                        { from: 1, to: 2, label: 'serves API' },
+                        { from: 2, to: 3, label: 'queries' },
+                        { from: 3, to: 4, label: 'modified by' },
+                        { from: 4, to: 5, label: 'resolves' },
+                        { from: 4, to: 6, label: 'discussed in' },
+                        { from: 2, to: 7, label: 'queries' },
+                        { from: 7, to: 8, label: 'modified by' },
+                        { from: 8, to: 9, label: 'resolves' },
+                        { from: 8, to: 10, label: 'discussed in' },
+                        { from: 2, to: 11, label: 'queries' },
+                        { from: 11, to: 12, label: 'modified by' },
+                        { from: 12, to: 13, label: 'resolves' },
+                        { from: 12, to: 14, label: 'discussed in' }
+                    ]);
+
+                    // Provide data to the network
+                    var container = document.getElementById('network');
+                    var data = {
+                        nodes: nodes,
+                        edges: edges
+                    };
+                    var options = {
+                        nodes: {
+                            font: { color: '#ffffff', size: 14 },
+                            borderWidth: 2,
+                            size: 30
+                        },
+                        edges: {
+                            color: { color: '#475569', highlight: '#818cf8' },
+                            font: { color: '#94a3b8', size: 10 },
+                            arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+                            smooth: { enabled: true, type: 'dynamic' }
+                        },
+                        physics: {
+                            enabled: true,
+                            barnesHut: { gravitationalConstant: -2000, centralGravity: 0.3, springLength: 95 }
+                        }
+                    };
+                    var network = new vis.Network(container, data, options);
+                </script>
+            </body>
+            </html>
+            

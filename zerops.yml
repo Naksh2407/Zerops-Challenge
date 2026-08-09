@@ -2,12 +2,14 @@ zerops:
   - setup: backend
     build:
       base: python@3.12
+      os: ubuntu
       buildCommands:
         - cd backend && pip install -r requirements.txt
       deployFiles:
         - backend
     run:
       base: python@3.12
+      os: ubuntu
       ports:
         - port: 8000
           httpSupport: true

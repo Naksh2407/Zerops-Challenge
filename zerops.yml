@@ -24,4 +24,7 @@ zerops:
         - cd frontend && npm install && npm run build
       deployFiles:
         - frontend/dist/~
+    run:
+      os: alpine
+      base: static
 

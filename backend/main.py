@@ -587,11 +587,13 @@ async def update_config(payload: ConfigPayload):
             if not updated:
                 env_lines.append(f'{key}="{value}"\n')
 
-        # Find and replace LLM_API_KEY and OPENAI_API_KEY
+        # Find and replace LLM_API_KEY and OPENAI_API_KEY and GEMINI_API_KEY
+        set_env_var(lines, "GEMINI_API_KEY", new_key)
         set_env_var(lines, "LLM_API_KEY", new_key)
         set_env_var(lines, "OPENAI_API_KEY", new_key)
         
         # Set in environment variables
+        os.environ["GEMINI_API_KEY"] = new_key
         os.environ["LLM_API_KEY"] = new_key
         os.environ["OPENAI_API_KEY"] = new_key
         

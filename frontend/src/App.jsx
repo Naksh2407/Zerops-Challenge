@@ -1848,7 +1848,7 @@ export default function App() {
 
                   <div className="space-y-3.5 text-[10px] font-mono">
                     <div>
-                      <span className="text-slate-500 block mb-1 text-[9px]">OpenAI API Key:</span>
+                      <span className="text-slate-500 block mb-1 text-[9px]">Gemini API Key:</span>
                       <div className="bg-slate-900/35 border border-slate-900 p-2.5 rounded-lg text-slate-400 truncate">
                         {apiKeyRedacted}
                       </div>
@@ -1913,7 +1913,7 @@ export default function App() {
 
             <div className="space-y-4">
               <div>
-                <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">OpenAI API Key</label>
+                <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Gemini API Key</label>
                 <div className="relative">
                   <input
                     type="password"

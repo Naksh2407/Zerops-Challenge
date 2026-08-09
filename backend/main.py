@@ -28,7 +28,7 @@ def validate_api_key():
     if gemini_key and "your-api-key" not in gemini_key:
         try:
             req = urllib.request.Request(f"https://generativelanguage.googleapis.com/v1beta/models?key={gemini_key}")
-            with urllib.request.urlopen(req, timeout=2.0) as response:
+            with urllib.request.urlopen(req, timeout=10.0) as response:
                 if response.status == 200:
                     LLM_IS_VALID = True
                     print("Gemini API key validation succeeded! Live Cognee mode active.")
@@ -54,7 +54,7 @@ def validate_api_key():
             "https://api.openai.com/v1/models",
             headers={"Authorization": f"Bearer {api_key}"}
         )
-        with urllib.request.urlopen(req, timeout=2.0) as response:
+        with urllib.request.urlopen(req, timeout=10.0) as response:
             if response.status == 200:
                 LLM_IS_VALID = True
                 print("OpenAI API key validation succeeded! Live Cognee mode active.")

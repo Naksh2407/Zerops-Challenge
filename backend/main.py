@@ -528,7 +528,7 @@ async def get_config():
     """
     Returns the current active environment configurations.
     """
-    api_key = os.getenv("LLM_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
+    api_key = os.getenv("GEMINI_API_KEY", "") or os.getenv("LLM_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
     redacted = "Not configured"
     if api_key:
         if len(api_key) > 10:

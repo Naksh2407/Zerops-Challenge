@@ -149,6 +149,8 @@ our session keys are written without TTLs. Mark, let's set maxmemory_policy to a
 in cache_manager.py immediately to force eviction of any LRU keys when we hit the memory limit."` }
 ];
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export default function App() {
   // Pipeline Toggles
   const [vectorOn, setVectorOn] = useState(true);
@@ -234,7 +236,7 @@ export default function App() {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await fetch("http://localhost:8000/config");
+        const res = await fetch(`${API_URL}/config`);
         if (res.ok) {
           const data = await res.json();
           setApiKeyRedacted(data.api_key_status);
@@ -266,12 +268,12 @@ export default function App() {
 
   const handleReset = async () => {
     setIsProcessing(true);
-    addLog("Sending POST request to FastAPI: http://localhost:8000/reset", "info");
+    addLog(`Sending POST request to FastAPI: ${API_URL}/reset`, "info");
     addLog("Purging all vector indices, graphs, and cached databases...", "info");
     
     try {
       if (useLocalBackend) {
-        const res = await fetch("http://localhost:8000/reset", { method: 'POST' });
+        const res = await fetch(`${API_URL}/reset`, { method: 'POST' });
         if (!res.ok) throw new Error("Backend reset failed.");
         const data = await res.json();
         addLog(`Cognee backend: ${data.message}`, "success");
@@ -335,7 +337,7 @@ export default function App() {
       setSelectedDocId(newDoc.id);
 
       if (useLocalBackend) {
-        const res = await fetch("http://localhost:8000/ingest-file", {
+        const res = await fetch(`${API_URL}/ingest-file`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -373,7 +375,7 @@ export default function App() {
     addLog("Saving active configuration to backend...", "info");
     
     try {
-      const res = await fetch("http://localhost:8000/config", {
+      const res = await fetch(`${API_URL}/config`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -482,8 +484,8 @@ export default function App() {
 
     // Call Real Backend
     try {
-      addLog("Sending POST request to FastAPI: http://localhost:8000/ingest", "info");
-      const res = await fetch('http://localhost:8000/ingest', { method: 'POST' });
+      addLog(`Sending POST request to FastAPI: ${API_URL}/ingest`, "info");
+      const res = await fetch(`${API_URL}/ingest`, { method: 'POST' });
       if (!res.ok) throw new Error("FastAPI backend failed.");
       const data = await res.json();
       addLog(`Cognee backend: ${data.message}`, "success");
@@ -508,7 +510,7 @@ export default function App() {
       // CALL LIVE PYTHON/COGNEE BACKEND
       try {
         addLog("Retrieving hybrid context from Cognee (/ask)...", "info");
-        const res = await fetch('http://localhost:8000/ask', {
+        const res = await fetch(`${API_URL}/ask`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: queryToUse })
@@ -1359,7 +1361,7 @@ export default function App() {
                     <div className="flex-1 relative border border-slate-900 rounded-2xl bg-slate-950/60 overflow-hidden shadow-2xl flex items-center justify-center">
                       {useLocalBackend ? (
                         <iframe
-                          src="http://localhost:8000/graph"
+                          src={`${API_URL}/graph`}
                           className="w-full h-full border-none"
                           title="Cognee Knowledge Graph Visualizer"
                         />

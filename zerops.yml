@@ -1,0 +1,32 @@
+project:
+  name: codebase-archaeologist
+
+services:
+  - hostname: backend
+    type: python@3.12
+    # The buildFromGit URL can be configured from the Zerops GUI if you link a GitHub repo directly
+    build:
+      base: ubuntu@22.04
+      buildCommands:
+        - cd backend && pip install -r requirements.txt
+      deployFiles:
+        - backend
+    run:
+      base: ubuntu@22.04
+      ports:
+        - port: 8000
+          httpSupport: true
+      # Zerops starts in the root of deployFiles, which contains 'backend' folder
+      start: cd backend && uvicorn main:app --host 0.0.0.0 --port 8000
+      envVariables:
+        # These can be securely set in the Zerops GUI later
+        OPENAI_API_KEY: ""
+
+  - hostname: frontend
+    type: static
+    build:
+      base: nodejs@20
+      buildCommands:
+        - cd frontend && npm install && npm run build
+      deployFiles:
+        - frontend/dist/~

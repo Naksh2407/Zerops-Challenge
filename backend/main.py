@@ -23,6 +23,26 @@ LLM_IS_VALID = True
 
 def validate_api_key():
     global LLM_IS_VALID
+    
+    gemini_key = os.getenv("GEMINI_API_KEY", "")
+    if gemini_key and "your-api-key" not in gemini_key:
+        try:
+            req = urllib.request.Request(f"https://generativelanguage.googleapis.com/v1beta/models?key={gemini_key}")
+            with urllib.request.urlopen(req, timeout=2.0) as response:
+                if response.status == 200:
+                    LLM_IS_VALID = True
+                    print("Gemini API key validation succeeded! Live Cognee mode active.")
+                    # Force Cognee to use Gemini for both LLM and Embeddings
+                    os.environ["LLM_PROVIDER"] = "gemini"
+                    os.environ["LLM_MODEL"] = "gemini/gemini-1.5-flash"
+                    os.environ["EMBEDDING_PROVIDER"] = "gemini"
+                    os.environ["EMBEDDING_MODEL"] = "models/embedding-001"
+                    return
+        except Exception as e:
+            LLM_IS_VALID = False
+            print(f"Gemini API key validation failed: {e}. Bypassing Cognee calls.")
+            return
+
     api_key = os.getenv("LLM_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
     if not api_key or "your-api-key" in api_key:
         LLM_IS_VALID = False
@@ -37,16 +57,16 @@ def validate_api_key():
         with urllib.request.urlopen(req, timeout=2.0) as response:
             if response.status == 200:
                 LLM_IS_VALID = True
-                print("LLM API key validation succeeded! Live Cognee mode active.")
+                print("OpenAI API key validation succeeded! Live Cognee mode active.")
             else:
                 LLM_IS_VALID = False
-                print(f"LLM API key validation failed: {response.status}. Bypassing Cognee calls to avoid retry delays.")
+                print(f"LLM API key validation failed: {response.status}. Bypassing Cognee calls.")
     except urllib.error.HTTPError as e:
         LLM_IS_VALID = False
-        print(f"LLM API key validation failed with HTTP Error {e.code}: {e.reason}. Bypassing Cognee calls to avoid retry delays.")
+        print(f"LLM API key validation failed with HTTP Error {e.code}: {e.reason}. Bypassing Cognee calls.")
     except Exception as e:
         LLM_IS_VALID = False
-        print(f"Network exception during LLM API key validation: {e}. Bypassing Cognee calls to avoid retry delays.")
+        print(f"Network exception during LLM API key validation: {e}. Bypassing Cognee calls.")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

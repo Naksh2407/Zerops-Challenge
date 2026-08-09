@@ -28,10 +28,10 @@ We have configured a `zerops.yml` file to make deployment instantaneous.
 4. Zerops will automatically detect the `zerops.yml` in the root of the repository and create both the `backend` and `frontend` services.
 
 ### Step 3: Configure Environment Variables
-Before triggering the build, you need to set up the LLM API Key on the backend.
+Before triggering the build, you need to set up the LLM API Key on the backend. We recommend using a free Gemini key!
 1. Go to the `backend` service in the Zerops GUI.
 2. Navigate to **Environment variables**.
-3. Add a new variable: `OPENAI_API_KEY` with your OpenAI API key (or GEMINI key if preferred).
+3. Add a new variable: `GEMINI_API_KEY` with your free Google AI Studio key.
 4. Save and trigger the build.
 
 ### Step 4: Link Frontend to Backend
@@ -53,5 +53,5 @@ Before triggering the build, you need to set up the LLM API Key on the backend.
 
 If you want to run this locally instead of on Zerops:
 
-1. **Backend:** Navigate to `backend`, run `python -m venv venv`, activate it, `pip install -r requirements.txt`, set `export OPENAI_API_KEY="your-key"`, and start with `uvicorn main:app --reload`.
+1. **Backend:** Navigate to `backend`, run `python -m venv venv`, activate it, `pip install -r requirements.txt`, set `export GEMINI_API_KEY="your-key"`, and start with `uvicorn main:app --reload`.
 2. **Frontend:** Navigate to `frontend`, run `npm install`, set your `.env` (or default to localhost:8000), and start with `npm run dev`.

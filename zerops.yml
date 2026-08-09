@@ -20,7 +20,7 @@ services:
       start: cd backend && uvicorn main:app --host 0.0.0.0 --port 8000
       envVariables:
         # These can be securely set in the Zerops GUI later
-        OPENAI_API_KEY: ""
+        GEMINI_API_KEY: ""
 
   - hostname: frontend
     type: static

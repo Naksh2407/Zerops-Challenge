@@ -14,8 +14,7 @@ zerops:
         - port: 8000
           httpSupport: true
       start: cd backend && uvicorn main:app --host 0.0.0.0 --port 8000
-      envVariables:
-        GEMINI_API_KEY: ""
+
 
   - setup: frontend
     build:

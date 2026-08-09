@@ -24,7 +24,7 @@ LLM_IS_VALID = True
 def validate_api_key():
     global LLM_IS_VALID
     
-    gemini_key = os.getenv("GEMINI_API_KEY", "")
+    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
     if gemini_key and "your-api-key" not in gemini_key:
         try:
             req = urllib.request.Request(f"https://generativelanguage.googleapis.com/v1beta/models?key={gemini_key}")
@@ -39,11 +39,10 @@ def validate_api_key():
                     os.environ["EMBEDDING_MODEL"] = "models/embedding-001"
                     return
         except Exception as e:
-            LLM_IS_VALID = False
-            print(f"Gemini API key validation failed: {e}. Bypassing Cognee calls.")
-            return
+            print(f"Gemini API key validation failed: {e}. Falling back to OpenAI check.")
+            # Do not return here, let it fall through to OpenAI check
 
-    api_key = os.getenv("LLM_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
+    api_key = os.getenv("LLM_API_KEY", "").strip() or os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key or "your-api-key" in api_key:
         LLM_IS_VALID = False
         print("LLM API key is placeholder or empty. Live Cognee calls will be bypassed to avoid retry delays.")

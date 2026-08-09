@@ -4,6 +4,7 @@ project:
 services:
   - hostname: backend
     type: python@3.12
+    enableSubdomainAccess: true
     # The buildFromGit URL can be configured from the Zerops GUI if you link a GitHub repo directly
     build:
       base: ubuntu@22.04
@@ -24,6 +25,7 @@ services:
 
   - hostname: frontend
     type: static
+    enableSubdomainAccess: true
     build:
       base: nodejs@20
       buildCommands:

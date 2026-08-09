@@ -28,11 +28,13 @@ We have configured a `zerops.yml` file to make deployment instantaneous.
 4. Zerops will automatically detect the `zerops.yml` in the root of the repository and create both the `backend` and `frontend` services.
 
 ### Step 3: Configure Environment Variables
-Before triggering the build, you need to set up the LLM API Key on the backend. We recommend using a free Gemini key!
+Before triggering the build, you need to set up the LLM API Key and your Cognee Cloud connection on the backend. We recommend using a free Gemini key!
 1. Go to the `backend` service in the Zerops GUI.
 2. Navigate to **Environment variables**.
 3. Add a new variable: `GEMINI_API_KEY` with your free Google AI Studio key.
-4. Save and trigger the build.
+4. Add a new variable: `COGNEE_API_KEY` with your Cognee Cloud API key.
+5. Add a new variable: `COGNEE_SERVICE_URL` with your Cognee Cloud Tenant URL (e.g. `https://tenant-name.cognee.ai`).
+6. Save and trigger the build.
 
 ### Step 4: Link Frontend to Backend
 1. Once the `backend` service is running, go to its settings and **Enable Public Access**. Copy the public URL (e.g., `https://backend-1234.zerops.app`).

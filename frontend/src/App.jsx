@@ -156,7 +156,7 @@ export default function App() {
   const [vectorOn, setVectorOn] = useState(true);
   const [graphOn, setGraphOn] = useState(true);
   const [llmOn, setLlmOn] = useState(true);
-  const [useLocalBackend, setUseLocalBackend] = useState(true);
+  const [useLocalBackend, setUseLocalBackend] = useState(false);
   const [viewMode, setViewMode] = useState('pipeline'); // 'pipeline' or 'graph'
   const [activePage, setActivePage] = useState('oracle'); // 'oracle', 'graph', 'vault', 'trace', 'console'
 
@@ -261,7 +261,6 @@ export default function App() {
         }
       } catch (err) {
         console.log("Could not contact backend config:", err);
-        addLog(`FATAL ERROR: Could not connect to backend at ${API_URL}. If this says localhost, you forgot to set VITE_API_URL or rebuild the frontend!`, "error");
       }
     };
     fetchConfig();

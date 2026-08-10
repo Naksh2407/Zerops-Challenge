@@ -57,3 +57,9 @@ If you want to run this locally instead of on Zerops:
 
 1. **Backend:** Navigate to `backend`, run `python -m venv venv`, activate it, `pip install -r requirements.txt`, set `export GEMINI_API_KEY="your-key"`, and start with `uvicorn main:app --reload`.
 2. **Frontend:** Navigate to `frontend`, run `npm install`, set your `.env` (or default to localhost:8000), and start with `npm run dev`.
+
+---
+
+## 🤖 Acknowledgements & AI Usage
+
+As per the WeMakeDevs x Zerops Hackathon guidelines, we would like to disclose that **Antigravity** (an agentic AI coding assistant) was utilized during this hackathon. It was used to pair-program, accelerate boilerplate development, and assist in debugging the Zerops deployment pipelines.
